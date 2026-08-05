@@ -10,8 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.19.0",
+    "countries-list": "^3.4.1",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.8",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^7.18.2",
+    "react-toastify": "^11.1.0",
+    "recharts": "^3.10.1",
+    "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
