@@ -1,0 +1,3 @@
+YeYG2a5eDRyBUOXw: itcp318-ns-2026
+
+mongodb+srv://itcp318-ns-2026:YeYG2a5eDRyBUOXw@cluster0.igi3r.mongodb.net/?appName=Cluster0
