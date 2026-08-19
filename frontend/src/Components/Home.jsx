@@ -31,8 +31,8 @@ const Home = () => {
                 <section id="products" className="container mt-5">
                     <div className="row">
                         {products && products.map(product => (
-                            // <Product key={product._id} product={product} />
-                            <Product product={product} />
+                            <Product key={product._id} product={product} />
+                            // <Product product={product} />
 
 
                         ))}
