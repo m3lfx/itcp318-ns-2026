@@ -1,6 +1,8 @@
 import React from 'react'
 import '../../App.css'
 import { Link } from 'react-router-dom'
+
+import Search from './Search'
 export const Header = () => {
     return (
         <>
@@ -9,9 +11,13 @@ export const Header = () => {
                     <div className="navbar-brand">
                         <Link to="/">
                             <img src="./images/shopit_logo.png" />
+
                         </Link>
+
                     </div>
+
                 </div>
+                <Search />
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
                     Login
                 </div>
