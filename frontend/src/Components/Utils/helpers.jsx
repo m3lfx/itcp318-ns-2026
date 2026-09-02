@@ -10,3 +10,20 @@ export const getUser = () => {
         }
     }
 };
+
+export const authenticate = (data, next) => {
+    if (window !== 'undefined') {
+        // console.log('authenticate', response)
+        sessionStorage.setItem('token', JSON.stringify(data.token));
+        sessionStorage.setItem('user', JSON.stringify(data.user));
+    }
+    next();
+};
+
+export const logout = next => {
+    if (window !== 'undefined') {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
+    }
+    next();
+};

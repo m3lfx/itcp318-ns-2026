@@ -7,6 +7,7 @@ import './App.css'
 import Home from './Components/Home'
 import ProductDetails from './Components/Product/ProductDetails';
 import Login from './Components/User/Login';
+import Register from './Components/User/Register';
 function App() {
 
 
@@ -20,7 +21,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} exact="true" />
           <Route path="/search/:keyword" element={<Home />} exact="true" />
           <Route path="/login" element={<Login />} exact="true" />
-
+          <Route path="/register" element={<Register exact="true" />} />
         </Routes>
 
 

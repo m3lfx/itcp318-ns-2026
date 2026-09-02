@@ -6,7 +6,7 @@ import MetaData from '../Layout/MetaData';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { getUser } from '../Utils/helpers';
+import { getUser, authenticate } from '../Utils/helpers';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -29,7 +29,7 @@ const Login = () => {
             }
             const { data } = await axios.post(`http://localhost:4001/api/v1/login`, { email, password }, config)
             console.log(data)
-            // authenticate(data, () => navigate("/"))
+            authenticate(data, () => navigate("/"))
 
         } catch (error) {
 

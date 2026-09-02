@@ -3,13 +3,21 @@ import '../../App.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getUser } from '../Utils/helpers';
+import { getUser, logout } from '../Utils/helpers';
 
 import Search from './Search'
 export const Header = () => {
 
     const [user, setUser] = useState({})
     const navigate = useNavigate()
+
+    const logoutHandler = () => {
+        logout(navigate('/'));
+
+        toast.success('log out', {
+            position: 'bottom-right'
+        });
+    }
     useEffect(() => {
         setUser(getUser())
     }, []);
@@ -50,7 +58,7 @@ export const Header = () => {
 
                             <Link
                                 className="dropdown-item text-danger" to="/"
-                            // onClick={logoutHandler}
+                                onClick={logoutHandler}
                             >
                                 Logout
                             </Link>
@@ -64,6 +72,7 @@ export const Header = () => {
                     </Link>
                     {/* <span className="ml-1" id="cart_count">{cartItems ? cartItems.length : null}</span>  */}
                 </div>
+
             </nav>
         </>
     )
