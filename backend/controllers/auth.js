@@ -184,3 +184,23 @@ exports.updateProfile = async (req, res, next) => {
         user
     })
 }
+
+exports.updatePassword = async (req, res, next) => {
+    console.log(req.body.password)
+    const user = await User.findById(req.user.id).select('+password');
+    // Check previous user password
+    const isMatched = await user.comparePassword(req.body.oldPassword)
+    if (!isMatched) {
+        return res.status(400).json({ message: 'Old password is incorrect' })
+    }
+    user.password = req.body.password;
+    await user.save();
+    const token = user.getJwtToken();
+
+    return res.status(201).json({
+        success: true,
+        user,
+        token
+    });
+
+}
