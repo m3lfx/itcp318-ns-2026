@@ -6,8 +6,9 @@ import { Carousel } from 'react-bootstrap'
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 
-const ProductDetails = () => {
+const ProductDetails = ({ cartItems, addItemToCart }) => {
     const [product, setProduct] = useState({})
+    const [quantity, setQuantity] = useState(1)
     let { id } = useParams()
     const productDetails = async (id) => {
         let link = `http://localhost:4001/api/v1/product/${id}`
@@ -20,9 +21,33 @@ const ProductDetails = () => {
         }
     }
 
+    const increaseQty = () => {
+        const count = document.querySelector('.count')
+        if (count.valueAsNumber >= product.stock) return;
+        const qty = count.valueAsNumber + 1;
+        setQuantity(qty)
+    }
+
+    const decreaseQty = () => {
+        const count = document.querySelector('.count')
+        if (count.valueAsNumber <= 1) return;
+        const qty = count.valueAsNumber - 1;
+        setQuantity(qty)
+    }
+
+    const addToCart = async () => {
+        await addItemToCart(id, quantity);
+
+    }
+
     useEffect(() => {
         productDetails(id)
+
     }, [id,]);
+
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
 
     return (
         <>
@@ -53,15 +78,21 @@ const ProductDetails = () => {
 
                     <p id="product_price">${product.price}</p>
                     <div className="stockCounter d-inline">
-                        <span className="btn btn-danger minus" >-</span>
+                        {/* <span className="btn btn-danger minus" >-</span>
 
                         <input type="number" className="form-control count d-inline" readOnly />
 
-                        <span className="btn btn-primary plus" >+</span>
+                        <span className="btn btn-primary plus" >+</span> */}
+                        <span className="btn btn-danger minus" onClick={decreaseQty}>-</span>
+
+                        <input type="number" className="form-control count d-inline" value={quantity} readOnly />
+
+                        <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
+
                     </div>
 
 
-                    <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0} >Add to Cart</button>
+                    <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0} onClick={addToCart} >Add to Cart</button>
                     <hr />
 
                     <p>Status: <span id="stock_status" className={product.stock > 0 ? 'greenColor' : 'redColor'} >{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span></p>

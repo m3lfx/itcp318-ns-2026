@@ -72,7 +72,7 @@ exports.getSingleProduct = async (req, res, next) => {
 
 exports.getProducts = async (req, res) => {
 
-    const resPerPage = 2;
+    const resPerPage = 4;
     const productsCount = await Product.countDocuments();
 
     // const products = await Product.find()
