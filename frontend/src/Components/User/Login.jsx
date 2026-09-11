@@ -41,17 +41,17 @@ const Login = () => {
 
     const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : ''
     console.log(redirect)
-    useEffect(() => {
-        if (getUser()) {
-            navigate('/')
-        }
-    }, [])
-
     // useEffect(() => {
-    //     if (getUser() && redirect === 'shipping') {
-    //         navigate(`/${redirect}`)
+    //     if (getUser()) {
+    //         navigate('/')
     //     }
     // }, [])
+
+    useEffect(() => {
+        if (getUser() && redirect === 'shipping') {
+            navigate(`/${redirect}`)
+        }
+    }, [])
 
     return (
         <>
