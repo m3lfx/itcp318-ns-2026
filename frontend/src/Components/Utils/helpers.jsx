@@ -37,3 +37,10 @@ export const getToken = () => {
         }
     }
 };
+
+export const errMsg = (message = '') => toast.error(message, {
+    position: 'bottom-center'
+});
+export const successMsg = (message = '') => toast.success(message, {
+    position: 'bottom-center'
+});
