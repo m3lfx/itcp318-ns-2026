@@ -253,3 +253,61 @@ exports.deleteReview = async (req, res, next) => {
         success: true
     })
 }
+
+exports.productSales = async (req, res, next) => {
+    const totalSales = await Order.aggregate([
+        {
+            $group: {
+                _id: null,
+                total: { $sum: "$itemsPrice" }
+
+            },
+
+        },
+    ])
+    console.log(totalSales)
+    const sales = await Order.aggregate([
+        { $project: { _id: 0, "orderItems": 1, totalPrice: true } },
+        { $unwind: "$orderItems" },
+        {
+            $group: {
+                _id: { product: "$orderItems.name" },
+                total: { $sum: { $multiply: ["$orderItems.price", "$orderItems.quantity"] } }
+            },
+        },
+    ])
+    console.log(sales)
+
+    if (!totalSales) {
+        return res.status(404).json({
+            message: 'error sales'
+        })
+
+    }
+    if (!sales) {
+        return res.status(404).json({
+            message: 'error sales'
+        })
+
+    }
+
+    let totalPercentage = {}
+    totalPercentage = sales.map(item => {
+
+        // console.log( ((item.total/totalSales[0].total) * 100).toFixed(2))
+        percent = Number(((item.total / totalSales[0].total) * 100).toFixed(2))
+        total = {
+            name: item._id.product,
+            percent
+        }
+        return total
+    })
+    console.log(totalPercentage)
+    res.status(200).json({
+        success: true,
+        totalPercentage,
+        sales,
+        totalSales
+    })
+
+}

@@ -201,11 +201,11 @@ exports.customerSales = async (req, res, next) => {
         {
             $project: {
                 _id: 0,
-                "userDetails.name": 1,
-                total: 1,
+                "userDetails.name": true,
+                total: true,
             }
         },
-        { $sort: { total: -1 } },
+        { $sort: { total: 1 } },
 
     ])
     console.log(customerSales)

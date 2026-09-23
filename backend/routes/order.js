@@ -8,9 +8,9 @@ const { newOrder,
 	deleteOrder,
 	allOrders,
 	updateOrder,
-	// totalOrders,
-	// totalSales,
-	// customerSales,
+	totalOrders,
+	totalSales,
+	customerSales,
 	// salesPerMonth,
 
 
@@ -23,8 +23,8 @@ router.get('/order/:id', isAuthenticatedUser, getSingleOrder);
 router.get('/admin/orders/', isAuthenticatedUser, authorizeRoles('admin'), allOrders);
 // // router.route('/admin/order/:id').delete(isAuthenticatedUser, deleteOrder);
 router.route('/admin/order/:id').put(isAuthenticatedUser, authorizeRoles('admin'), updateOrder).delete(isAuthenticatedUser, authorizeRoles('admin'), deleteOrder);
-// router.get('/admin/total-orders', totalOrders);
-// router.get('/admin/total-sales', totalSales);
-// router.get('/admin/customer-sales', customerSales);
+router.get('/admin/total-orders', totalOrders);
+router.get('/admin/total-sales', totalSales);
+router.get('/admin/customer-sales', customerSales);
 // router.get('/admin/sales-per-month', salesPerMonth);
 module.exports = router;
