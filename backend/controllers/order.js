@@ -225,6 +225,9 @@ exports.customerSales = async (req, res, next) => {
 }
 
 exports.salesPerMonth = async (req, res, next) => {
+    // select monthname(paidAt) sum(price * quantity)
+    // from orders
+    // group by month(date_placed), year(date_placed)
     const salesPerMonth = await Order.aggregate([
 
         {
@@ -256,8 +259,8 @@ exports.salesPerMonth = async (req, res, next) => {
         {
             $project: {
                 _id: 0,
-                month: 1,
-                total: 1,
+                month: true,
+                total: true,
             }
         }
 

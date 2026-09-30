@@ -8,9 +8,9 @@ import { getToken } from '../Utils/helpers';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import ProductSalesChart from './ProductSalesChart';
+import ProductSalesChart from './ProductSalesChart';
 import UserSalesChart from './UserSalesChart';
-// import MonthlySalesChart from './MonthlySalesChart';
+import MonthlySalesChart from './MonthlySalesChart';
 
 
 const Dashboard = () => {
@@ -142,15 +142,15 @@ const Dashboard = () => {
 
 
                 </div>
-                {/* <>
+                <>
                     <ProductSalesChart />
-                </> */}
+                </>
                 <>
                     <UserSalesChart />
                 </>
-                {/* <>
+                <>
                     <MonthlySalesChart />
-                </> */}
+                </>
 
             </div >
         </ >
