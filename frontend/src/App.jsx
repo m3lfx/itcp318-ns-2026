@@ -35,6 +35,7 @@ import ProcessOrder from './Components/Admin/ProcessOrder';
 import UsersList from './Components/Admin/UsersList';
 import UpdateUser from './Components/Admin/UpdateUser';
 import ProtectedRoute from './Components/Route/ProtectedRoute';
+import ProductReviews from './Components/Admin/ProductReviews';
 function App() {
 
   const [state, setState] = useState({
@@ -189,6 +190,13 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/reviews"
+            element={
+              <ProtectedRoute isAdmin={true} >
+                <ProductReviews />
+              </ProtectedRoute>} />
+
         </Routes>
 
 
