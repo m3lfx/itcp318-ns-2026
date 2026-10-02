@@ -2,6 +2,7 @@ const User = require('../models/user');
 const crypto = require('crypto')
 const cloudinary = require('cloudinary')
 const sendEmail = require('../utils/sendEmail')
+const sendToken = require('../utils/jwtToken');
 
 exports.registerUser = async (req, res, next) => {
     console.log(req.body)
@@ -59,13 +60,13 @@ exports.loginUser = async (req, res, next) => {
     }
     const token = user.getJwtToken();
 
-    res.status(201).json({
-        success: true,
-        token,
-        user
-    });
-    //  user = await User.findOne({ email })
-    // sendToken(user, 200, res)
+    // res.status(201).json({
+    //     success: true,
+    //     token,
+    //     user
+    // });
+    user = await User.findOne({ email })
+    sendToken(user, 200, res)
 }
 
 exports.forgotPassword = async (req, res, next) => {
@@ -259,5 +260,17 @@ exports.updateUser = async (req, res, next) => {
 
     return res.status(200).json({
         success: true
+    })
+}
+
+exports.logout = async (req, res, next) => {
+    res.cookie('token', null, {
+        expires: new Date(Date.now()),
+        httpOnly: true
+    })
+
+    return res.status(200).json({
+        success: true,
+        message: 'Logged out'
     })
 }

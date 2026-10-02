@@ -9,16 +9,22 @@ import MetaData from './Layout/MetaData'
 import Loader from './Layout/Loader';
 import Pagination from '@mui/material/Pagination';
 import axios from 'axios'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { getProducts } from '../actions/productActions'
+
 const Home = () => {
     // console.log(products)
-    const [products, setProducts] = useState([])
+    // const [products, setProducts] = useState([])
     const [price, setPrice] = useState([1, 1000]);
-    const [loading, setLoading] = useState(true)
-    const [productsCount, setProductsCount] = useState(0)
-    const [resPerPage, setResPerPage] = useState(0)
-    const [filteredProductsCount, setFilteredProductsCount] = useState(0)
+    // const [loading, setLoading] = useState(true)
+    // const [productsCount, setProductsCount] = useState(0)
+    // const [resPerPage, setResPerPage] = useState(0)
+    // const [filteredProductsCount, setFilteredProductsCount] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     let { keyword } = useParams();
+    const dispatch = useDispatch();
+    const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(state => state.products);
 
     let count = productsCount;
 
@@ -28,19 +34,19 @@ const Home = () => {
 
 
 
-    const getProducts = async (keyword = '', price, page = 1) => {
+    // const getProducts = async (keyword = '', price, page = 1) => {
 
-        let link = `http://localhost:4001/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&page=${page}`
-        // http://localhost:4001/api/v1/products?keyword=''
-        // http://localhost:4001/api/v1/products?keyword=adid&page=1&price[gte]=100&price[lte]=1000
-        let res = await axios.get(link)
-        console.log(res.data.products)
-        setProducts(res.data.products)
-        setProductsCount(res.data.productsCount)
-        setFilteredProductsCount(res.data.filteredProductsCount)
-        setResPerPage(res.data.resPerPage)
-        setLoading(false)
-    }
+    //     let link = `http://localhost:4001/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&page=${page}`
+    //     // http://localhost:4001/api/v1/products?keyword=''
+    //     // http://localhost:4001/api/v1/products?keyword=adid&page=1&price[gte]=100&price[lte]=1000
+    //     let res = await axios.get(link)
+    //     console.log(res.data.products)
+    //     setProducts(res.data.products)
+    //     setProductsCount(res.data.productsCount)
+    //     setFilteredProductsCount(res.data.filteredProductsCount)
+    //     setResPerPage(res.data.resPerPage)
+    //     setLoading(false)
+    // }
 
     const handleChange = (event, newValue) => {
         setPrice(newValue);
@@ -50,9 +56,13 @@ const Home = () => {
         return `P${price.toString()}`;
     }
     // getProducts()
+    // useEffect(() => {
+    //     // getProducts(keyword, price, currentPage)
+    // }, [keyword, price, currentPage]);
     useEffect(() => {
-        getProducts(keyword, price, currentPage)
-    }, [keyword, price, currentPage]);
+
+        dispatch(getProducts(currentPage, keyword, price,))
+    }, [currentPage, keyword, price,]);
 
     return (
         <>

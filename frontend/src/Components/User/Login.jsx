@@ -5,39 +5,43 @@ import Loader from '../Layout/Loader'
 import MetaData from '../Layout/MetaData';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
-import { getUser, authenticate } from '../Utils/helpers';
+// import axios from 'axios';
+// import { getUser, authenticate } from '../Utils/helpers';
+import { useDispatch, useSelector } from 'react-redux'
+import { login, clearErrors } from '../../actions/userActions'
 
 const Login = () => {
+    const { isAuthenticated, error, loading, } = useSelector(state => state.auth)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     let navigate = useNavigate()
     let location = useLocation()
+    const dispatch = useDispatch()
 
     const submitHandler = (e) => {
         e.preventDefault();
-        login(email, password)
+        dispatch(login(email, password))
     }
 
-    const login = async (email, password) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            const { data } = await axios.post(`http://localhost:4001/api/v1/login`, { email, password }, config)
-            console.log(data)
-            authenticate(data, () => navigate("/"))
+    // const login = async (email, password) => {
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         }
+    //         const { data } = await axios.post(`http://localhost:4001/api/v1/login`, { email, password }, config)
+    //         console.log(data)
+    //         authenticate(data, () => navigate("/"))
 
-        } catch (error) {
+    //     } catch (error) {
 
-            toast.error("invalid user or password", {
-                position: 'bottom-right'
-            })
-        }
-    }
+    //         toast.error("invalid user or password", {
+    //             position: 'bottom-right'
+    //         })
+    //     }
+    // }
 
     const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : ''
     console.log(redirect)
@@ -47,11 +51,24 @@ const Login = () => {
     //     }
     // }, [])
 
+    // useEffect(() => {
+    //     if (getUser() && redirect === 'shipping') {
+    //         navigate(`/${redirect}`)
+    //     }
+    // }, [])
+
     useEffect(() => {
-        if (getUser() && redirect === 'shipping') {
+        if (isAuthenticated && redirect === 'shipping') {
             navigate(`/${redirect}`)
         }
-    }, [])
+        else if (isAuthenticated)
+            navigate('/')
+        if (error) {
+            // alert.error(error);
+            console.log(error)
+            dispatch(clearErrors());
+        }
+    }, [error, isAuthenticated, dispatch, navigate, redirect])
 
     return (
         <>

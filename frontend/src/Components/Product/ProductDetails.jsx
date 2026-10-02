@@ -8,9 +8,12 @@ import axios from 'axios'
 import ListReviews from '../Review/ListReviews';
 
 import { getUser, getToken, successMsg, errMsg } from '../Utils/helpers'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProductDetails, clearErrors, } from '../../actions/productActions'
 
 const ProductDetails = ({ cartItems, addItemToCart }) => {
-    const [product, setProduct] = useState({})
+    // const [product, setProduct] = useState({})
+    const { loading, error, product } = useSelector(state => state.productDetails);
     const [quantity, setQuantity] = useState(1)
     const [user, setUser] = useState(getUser())
     const [rating, setRating] = useState(0)
@@ -18,16 +21,17 @@ const ProductDetails = ({ cartItems, addItemToCart }) => {
     const [errorReview, setErrorReview] = useState('');
     const [success, setSuccess] = useState('')
     let { id } = useParams()
-    const productDetails = async (id) => {
-        let link = `http://localhost:4001/api/v1/product/${id}`
-        try {
-            let res = await axios.get(link)
-            setProduct(res.data.product)
-        } catch (err) {
-            console.log(err)
-            // setError('Product not found')
-        }
-    }
+    const dispatch = useDispatch()
+    // const productDetails = async (id) => {
+    //     let link = `http://localhost:4001/api/v1/product/${id}`
+    //     try {
+    //         let res = await axios.get(link)
+    //         setProduct(res.data.product)
+    //     } catch (err) {
+    //         console.log(err)
+    //         // setError('Product not found')
+    //     }
+    // }
 
     const increaseQty = () => {
         const count = document.querySelector('.count')
@@ -107,7 +111,7 @@ const ProductDetails = ({ cartItems, addItemToCart }) => {
     }
 
     useEffect(() => {
-        productDetails(id)
+        dispatch(getProductDetails(id))
 
     }, [id,]);
 
