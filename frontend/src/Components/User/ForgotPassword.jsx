@@ -6,44 +6,49 @@ import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
+import { forgotPassword } from '../../actions/userActions';
 
 
 
 const ForgotPassword = () => {
+    const dispatch = useDispatch();
+    const { error, loading, message } = useSelector(state => state.forgotPassword)
+
 
     const [email, setEmail] = useState('')
-    const [loading, setLoading] = useState('')
+    // const [loading, setLoading] = useState('')
 
     const navigate = useNavigate()
 
-    const forgotPassword = async (formData) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        try {
-            const { data } = await axios.post(`http://localhost:4001/api/v1/password/forgot`, formData, config)
-            console.log(data.message)
+    // const forgotPassword = async (formData) => {
+    //     const config = {
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     }
+    //     try {
+    //         const { data } = await axios.post(`http://localhost:4001/api/v1/password/forgot`, formData, config)
+    //         console.log(data.message)
 
-            setLoading(false)
-            toast.success(data.message, {
-                position: 'bottom-center'
-            });
-            navigate('/login')
-        } catch (error) {
-            toast.error(error.response.data.message, {
-                position: 'top-right'
-            });
-        }
-    }
+    //         setLoading(false)
+    //         toast.success(data.message, {
+    //             position: 'bottom-center'
+    //         });
+    //         navigate('/login')
+    //     } catch (error) {
+    //         toast.error(error.response.data.message, {
+    //             position: 'top-right'
+    //         });
+    //     }
+    // }
 
 
     const submitHandler = (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.set('email', email);
-        forgotPassword(formData)
+        dispatch(forgotPassword(formData))
     }
 
     return (

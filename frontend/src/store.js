@@ -12,7 +12,7 @@ import {
 import {
     authReducer,
     // userReducer, 
-    // forgotPasswordReducer,
+    forgotPasswordReducer,
     // allUsersReducer,
     // userDetailsReducer, 
 } from './reducers/userReducers'
@@ -47,7 +47,7 @@ const reducer = combineReducers({
     productDetails: productDetailsReducer,
     auth: authReducer,
     // user: userReducer,
-    // forgotPassword: forgotPasswordReducer,
+    forgotPassword: forgotPasswordReducer,
     // newProduct: newProductReducer,
     // cart: cartReducer,
     // newOrder: newOrderReducer,
