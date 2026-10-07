@@ -2,9 +2,13 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import MetaData from '../Layout/MetaData'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemToCart, removeItemFromCart } from '../../actions/cartActions'
 
 
-const Cart = ({ addItemToCart, removeItemFromCart, cartItems }) => {
+const Cart = () => {
+    const dispatch = useDispatch();
+    const { cartItems } = useSelector(state => state.cart)
 
     const navigate = useNavigate()
 
@@ -12,25 +16,25 @@ const Cart = ({ addItemToCart, removeItemFromCart, cartItems }) => {
     const increaseQty = (id, quantity, stock) => {
         const newQty = quantity + 1;
         if (newQty > stock) return;
-        addItemToCart(id, newQty)
+        dispatch(addItemToCart(id, newQty))
     }
 
     const decreaseQty = (id, quantity) => {
         const newQty = quantity - 1;
         if (newQty <= 0) return;
-        addItemToCart(id, newQty)
+        dispatch(addItemToCart(id, newQty))
     }
 
     const removeCartItemHandler = (id) => {
-        removeItemFromCart(id)
+        dispatch(removeItemFromCart(id))
     }
     const checkoutHandler = () => {
         navigate('/login?redirect=shipping')
     }
     // localStorage.setItem('cartItems', JSON.stringify(cartItems))
-    useEffect(() => {
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }, [cartItems]);
+    // useEffect(() => {
+    //     localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    // }, [cartItems]);
     return (
         <>
             <MetaData title={'Your Cart'} />

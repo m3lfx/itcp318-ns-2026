@@ -3,20 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { countries } from 'countries-list'
 import MetaData from '../Layout/MetaData'
 import CheckoutSteps from './CheckoutSteps'
+import { useDispatch, useSelector } from 'react-redux'
+import { saveShippingInfo } from '../../actions/cartActions'
 
-const Shipping = ({ shipping, saveShippingInfo }) => {
+const Shipping = () => {
+    const dispatch = useDispatch();
+    const { shippingInfo } = useSelector(state => state.cart)
 
     const countriesList = Object.values(countries)
-    const [address, setAddress] = useState(shipping.address)
-    const [city, setCity] = useState(shipping.city)
-    const [postalCode, setPostalCode] = useState(shipping.postalCode)
-    const [phoneNo, setPhoneNo] = useState(shipping.phoneNo)
-    const [country, setCountry] = useState(shipping.country)
+    const [address, setAddress] = useState(shippingInfo.address)
+    const [city, setCity] = useState(shippingInfo.city)
+    const [postalCode, setPostalCode] = useState(shippingInfo.postalCode)
+    const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo)
+    const [country, setCountry] = useState(shippingInfo.country)
     let navigate = useNavigate();
     const submitHandler = (e) => {
         e.preventDefault()
 
-        saveShippingInfo({ address, city, phoneNo, postalCode, country })
+        dispatch(saveShippingInfo({ address, city, phoneNo, postalCode, country }))
         navigate('/confirm')
     }
 

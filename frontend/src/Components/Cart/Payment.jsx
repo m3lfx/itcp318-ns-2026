@@ -5,15 +5,28 @@ import CheckoutSteps from './CheckoutSteps'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getToken } from '../Utils/helpers';
+// import { getToken } from '../Utils/helpers';
+import { useDispatch, useSelector } from 'react-redux'
+import { createOrder, clearErrors } from '../../actions/orderActions'
+import { clearCart } from '../../actions/cartActions';
 
 
 
-const Payment = ({ cartItems, shippingInfo }) => {
-    const [loading, setLoading] = useState(true)
+const Payment = () => {
+    // const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch();
+    const { cartItems, shippingInfo } = useSelector(state => state.cart)
+    const { error, loading } = useSelector(state => state.newOrder)
     let navigate = useNavigate();
     // useEffect(() => {
     // }, [])
+    useEffect(() => {
+        if (error) {
+            console.log(error)
+            dispatch(clearErrors())
+        }
+
+    }, [dispatch, error])
 
     const order = {
         orderItems: cartItems,
@@ -28,31 +41,31 @@ const Payment = ({ cartItems, shippingInfo }) => {
         order.totalPrice = orderInfo.totalPrice
     }
 
-    const createOrder = async (order) => {
-        console.log(order)
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
-                }
-            }
-            const { data } = await axios.post(`${import.meta.env.VITE_API}/order/new`, order, config)
-            // setIsUpdated(data.success)
-            setLoading(false)
-            toast.success('order created', {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
+    // const createOrder = async (order) => {
+    //     console.log(order)
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${getToken()}`
+    //             }
+    //         }
+    //         const { data } = await axios.post(`${import.meta.env.VITE_API}/order/new`, order, config)
+    //         // setIsUpdated(data.success)
+    //         setLoading(false)
+    //         toast.success('order created', {
+    //             position: toast.POSITION.BOTTOM_RIGHT
+    //         });
 
-            // sessionStorage.removeItem('orderInfo')
-            // navigate('/success')
+    //         // sessionStorage.removeItem('orderInfo')
+    //         // navigate('/success')
 
-        } catch (error) {
-            toast.error(error.response.data.message, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            });
-        }
-    }
+    //     } catch (error) {
+    //         toast.error(error.response.data.message, {
+    //             position: toast.POSITION.BOTTOM_RIGHT
+    //         });
+    //     }
+    // }
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -61,7 +74,7 @@ const Payment = ({ cartItems, shippingInfo }) => {
             id: 'pi_1DpdYh2eZvKYlo2CYIynhU32',
             status: 'succeeded'
         }
-        createOrder(order)
+        dispatch(createOrder(order))
         navigate('/success')
     }
 
