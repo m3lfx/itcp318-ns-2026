@@ -1,39 +1,48 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MetaData from '../Layout/MetaData'
-import axios from 'axios'
+// import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { register, clearErrors } from '../../actions/userActions'
 
 
 const Register = () => {
-
+    const dispatch = useDispatch()
+    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
     const [user, setUser] = useState({
         name: '',
         email: '',
         password: '',
     })
 
+    // const [user, setUser] = useState({
+    //     name: '',
+    //     email: '',
+    //     password: '',
+    // })
+
     const { name, email, password } = user;
 
     const [avatar, setAvatar] = useState('')
     const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.jpg')
 
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(true)
+    // const [error, setError] = useState('')
+    // const [loading, setLoading] = useState(true)
 
 
     let navigate = useNavigate()
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         navigate('/')
-    //     }
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/')
+        }
 
-    //     if (error) {
-    //         console.log(error)
-    //         dispatch(clearErrors());
+        if (error) {
+            console.log(error)
+            dispatch(clearErrors());
 
-    //     }
+        }
 
-    // }, [error, navigate, isAuthenticated])
+    }, [error, navigate, isAuthenticated])
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -44,7 +53,7 @@ const Register = () => {
         formData.set('password', password);
         formData.set('avatar', avatar);
 
-        register(formData)
+        dispatch(register(formData))
     }
 
     const onChange = e => {
@@ -66,29 +75,29 @@ const Register = () => {
         }
     }
 
-    const register = async (userData) => {
-        console.log(userData)
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
+    // const register = async (userData) => {
+    //     console.log(userData)
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         }
 
-            const { data } = await axios.post(`http://localhost:4001/api/v1/register`, userData, config)
-            console.log(data.user)
+    //         const { data } = await axios.post(`http://localhost:4001/api/v1/register`, userData, config)
+    //         console.log(data.user)
 
-            setLoading(false)
-            setUser(data.user)
-            navigate('/')
+    //         setLoading(false)
+    //         setUser(data.user)
+    //         navigate('/')
 
-        } catch (error) {
-            setLoading(false)
-            setUser(null)
-            setError(error.response.data.message)
-            console.log(error.response.data.message)
-        }
-    }
+    //     } catch (error) {
+    //         setLoading(false)
+    //         setUser(null)
+    //         setError(error.response.data.message)
+    //         console.log(error.response.data.message)
+    //     }
+    // }
 
 
 

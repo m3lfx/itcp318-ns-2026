@@ -24,14 +24,14 @@ exports.registerUser = async (req, res, next) => {
         },
     })
     //test token
-    const token = user.getJwtToken();
+    // const token = user.getJwtToken();
 
-    return res.status(201).json({
-        success: true,
-        user,
-        token
-    })
-    // sendToken(user, 200, res)
+    // return res.status(201).json({
+    //     success: true,
+    //     user,
+    //     token
+    // })
+    sendToken(user, 200, res)
 }
 
 exports.loginUser = async (req, res, next) => {
