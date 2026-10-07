@@ -196,13 +196,14 @@ exports.updatePassword = async (req, res, next) => {
     }
     user.password = req.body.password;
     await user.save();
-    const token = user.getJwtToken();
+    // const token = user.getJwtToken();
 
-    return res.status(201).json({
-        success: true,
-        user,
-        token
-    });
+    // return res.status(201).json({
+    //     success: true,
+    //     user,
+    //     token
+    // });
+    sendToken(user, 200, res)
 
 }
 
