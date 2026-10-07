@@ -38,88 +38,91 @@ import ProtectedRoute from './Components/Route/ProtectedRoute';
 import ProductReviews from './Components/Admin/ProductReviews';
 function App() {
 
-  const [state, setState] = useState({
-    cartItems: localStorage.getItem('cartItems')
-      ? JSON.parse(localStorage.getItem('cartItems'))
-      : [],
+  // const [state, setState] = useState({
+  //   cartItems: localStorage.getItem('cartItems')
+  //     ? JSON.parse(localStorage.getItem('cartItems'))
+  //     : [],
 
-    shippingInfo: localStorage.getItem('shippingInfo')
-      ? JSON.parse(localStorage.getItem('shippingInfo'))
-      : {},
-  })
+  //   shippingInfo: localStorage.getItem('shippingInfo')
+  //     ? JSON.parse(localStorage.getItem('shippingInfo'))
+  //     : {},
+  // })
 
-  const addItemToCart = async (id, quantity) => {
-    console.log(id, quantity)
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API}/product/${id}`)
-      console.log(data)
+  // const addItemToCart = async (id, quantity) => {
+  //   console.log(id, quantity)
+  //   try {
+  //     const { data } = await axios.get(`${import.meta.env.VITE_API}/product/${id}`)
+  //     console.log(data)
 
-      const item = {
-        product: data.product._id,
-        name: data.product.name,
-        price: data.product.price,
-        image: data.product.images[0].url ? data.product.images[0].url : '',
-        stock: data.product.stock,
-        quantity: quantity
-      }
-      console.log(item)
+  //     const item = {
+  //       product: data.product._id,
+  //       name: data.product.name,
+  //       price: data.product.price,
+  //       image: data.product.images[0].url ? data.product.images[0].url : '',
+  //       stock: data.product.stock,
+  //       quantity: quantity
+  //     }
+  //     console.log(item)
 
-      const isItemExist = state.cartItems.find(i => i.product === item.product)
-
-
-      if (isItemExist) {
-        setState({
-          ...state,
-          cartItems: state.cartItems.map(i => i.product === isItemExist.product ? item : i)
-        })
-      }
-      else {
-        setState({
-          ...state,
-          cartItems: [...state.cartItems, item]
-        })
-      }
-
-      toast.success('Item Added to Cart', {
-        position: 'bottom-right'
-      })
+  //     const isItemExist = state.cartItems.find(i => i.product === item.product)
 
 
+  //     if (isItemExist) {
+  //       setState({
+  //         ...state,
+  //         cartItems: state.cartItems.map(i => i.product === isItemExist.product ? item : i)
+  //       })
+  //     }
+  //     else {
+  //       setState({
+  //         ...state,
+  //         cartItems: [...state.cartItems, item]
+  //       })
+  //     }
 
-    } catch (error) {
-      toast.error(error, {
-        position: 'top-left'
-      });
+  //     toast.success('Item Added to Cart', {
+  //       position: 'bottom-right'
+  //     })
 
-    }
 
-  }
 
-  const removeItemFromCart = async (id) => {
-    setState({
-      ...state,
-      cartItems: state.cartItems.filter(i => i.product !== id)
-    })
-    localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
-  }
+  //   } catch (error) {
+  //     toast.error(error, {
+  //       position: 'top-left'
+  //     });
 
-  const saveShippingInfo = async (data) => {
-    setState({
-      ...state,
-      shippingInfo: data
-    })
-    localStorage.setItem('shippingInfo', JSON.stringify(data))
-  }
+  //   }
+
+  // }
+
+  // const removeItemFromCart = async (id) => {
+  //   setState({
+  //     ...state,
+  //     cartItems: state.cartItems.filter(i => i.product !== id)
+  //   })
+  //   localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+  // }
+
+  // const saveShippingInfo = async (data) => {
+  //   setState({
+  //     ...state,
+  //     shippingInfo: data
+  //   })
+  //   localStorage.setItem('shippingInfo', JSON.stringify(data))
+  // }
 
 
   return (
     <>
 
       <Router>
-        <Header cartItems={state.cartItems} />
+        {/* <Header cartItems={state.cartItems} /> */}
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
-          <Route path="/product/:id" element={<ProductDetails cartItems={state.cartItems} addItemToCart={addItemToCart} />} exact="true" />
+          {/* <Route path="/product/:id" element={<ProductDetails cartItems={state.cartItems} addItemToCart={addItemToCart} />} exact="true" /> */}
+          <Route path="/product/:id" element={<ProductDetails />} exact="true" />
+
           <Route path="/search/:keyword" element={<Home />} exact="true" />
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register exact="true" />} />
@@ -129,10 +132,17 @@ function App() {
           <Route path="/me/update" element={<UpdateProfile />} exact="true"
           />
           <Route path="/password/update" element={<UpdatePassword />} />
-          <Route path="/cart" element={<Cart cartItems={state.cartItems} addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} />} exact="true" />
+          {/* <Route path="/cart" element={<Cart cartItems={state.cartItems} addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} />} exact="true" />
           <Route path="/shipping" element={<Shipping shipping={state.shippingInfo} saveShippingInfo={saveShippingInfo} />} />
           <Route path="/confirm" element={<ConfirmOrder cartItems={state.cartItems} shippingInfo={state.shippingInfo} />} />
-          <Route path="/payment" element={<Payment cartItems={state.cartItems} shippingInfo={state.shippingInfo} />} />
+          <Route path="/payment" element={<Payment cartItems={state.cartItems} shippingInfo={state.shippingInfo} />} /> */}
+
+          <Route path="/cart" element={<Cart />} exact="true" />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/confirm" element={<ConfirmOrder />} />
+          <Route path="/payment" element={<Payment />} />
+
+
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/orders/me" element={<ListOrders />} />
           <Route path="/order/:id" element={<OrderDetails />} />

@@ -10,8 +10,8 @@ import ListReviews from '../Review/ListReviews';
 import { getUser, getToken, successMsg, errMsg } from '../Utils/helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductDetails, clearErrors, } from '../../actions/productActions'
-
-const ProductDetails = ({ cartItems, addItemToCart }) => {
+import { addItemToCart } from '../../actions/cartActions'
+const ProductDetails = () => {
     // const [product, setProduct] = useState({})
     const { loading, error, product } = useSelector(state => state.productDetails);
     const [quantity, setQuantity] = useState(1)
@@ -48,7 +48,7 @@ const ProductDetails = ({ cartItems, addItemToCart }) => {
     }
 
     const addToCart = async () => {
-        await addItemToCart(id, quantity);
+        await dispatch(addItemToCart(id, quantity));
 
     }
 
@@ -115,9 +115,9 @@ const ProductDetails = ({ cartItems, addItemToCart }) => {
 
     }, [id,]);
 
-    useEffect(() => {
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }, [cartItems]);
+    // useEffect(() => {
+    //     localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    // }, [cartItems]);
 
     return (
         <>
