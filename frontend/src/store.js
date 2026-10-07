@@ -11,7 +11,7 @@ import {
 } from './reducers/productReducers'
 import {
     authReducer,
-    // userReducer, 
+    userReducer,
     forgotPasswordReducer,
     // allUsersReducer,
     userDetailsReducer,
@@ -46,7 +46,7 @@ const reducer = combineReducers({
     products: productsReducer,
     productDetails: productDetailsReducer,
     auth: authReducer,
-    // user: userReducer,
+    user: userReducer,
     forgotPassword: forgotPasswordReducer,
     // newProduct: newProductReducer,
     // cart: cartReducer,
