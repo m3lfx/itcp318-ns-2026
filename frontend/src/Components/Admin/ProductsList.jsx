@@ -13,7 +13,7 @@ import { DataGrid, } from '@mui/x-data-grid'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     getAdminProducts,
-    // deleteProduct,
+    deleteProduct,
     clearErrors,
 } from '../../actions/productActions'
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants'
@@ -23,8 +23,9 @@ const ProductsList = () => {
     // const [error, setError] = useState('')
     const dispatch = useDispatch();
     const { loading, error, products } = useSelector(state => state.products)
+    const { error: deleteError, isDeleted } = useSelector(state => state.product)
 
-    const [deleteError, setDeleteError] = useState('')
+    // const [deleteError, setDeleteError] = useState('')
 
     // const [loading, setLoading] = useState(true)
     // const [isDeleted, setIsDeleted] = useState(false)
@@ -74,24 +75,24 @@ const ProductsList = () => {
 
     // }, [error, deleteError, isDeleted,])
 
-    const deleteProduct = async (id) => {
-        try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${getToken()}`
-                }
-            }
-            const { data } = await axios.delete(`${import.meta.env.VITE_API}/admin/product/${id}`, config)
+    // const deleteProduct = async (id) => {
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Authorization': `Bearer ${getToken()}`
+    //             }
+    //         }
+    //         const { data } = await axios.delete(`${import.meta.env.VITE_API}/admin/product/${id}`, config)
 
-            setIsDeleted(data.success)
-            setLoading(false)
-        } catch (error) {
-            setDeleteError(error.response.data.message)
+    //         setIsDeleted(data.success)
+    //         setLoading(false)
+    //     } catch (error) {
+    //         setDeleteError(error.response.data.message)
 
-        }
-    }
+    //     }
+    // }
     const deleteProductHandler = (id) => {
-        deleteProduct(id)
+        dispatch(deleteProduct(id))
     }
 
     useEffect(() => {
@@ -104,21 +105,21 @@ const ProductsList = () => {
             dispatch(clearErrors())
         }
 
-        // if (deleteError) {
-        //     toast.error(deleteError, {
-        //         position: 'bottom-right'
-        //     });
-        //     dispatch(clearErrors())
-        // }
+        if (deleteError) {
+            toast.error(deleteError, {
+                position: 'bottom-right'
+            });
+            dispatch(clearErrors())
+        }
 
-        // if (isDeleted) {
-        //     toast.success('Product deleted successfully', {
-        //         position: 'bottom-right'
-        //     })
-        //     // navigate('/admin/products');
-        //     dispatch({ type: DELETE_PRODUCT_RESET })
+        if (isDeleted) {
+            toast.success('Product deleted successfully', {
+                position: 'bottom-right'
+            })
+            // navigate('/admin/products');
+            dispatch({ type: DELETE_PRODUCT_RESET })
 
-        // }
+        }
 
     }, [error, deleteError,])
 

@@ -4,7 +4,8 @@ import { thunk } from 'redux-thunk';
 import {
     productsReducer,
     productDetailsReducer,
-    // newProductReducer,
+    newProductReducer,
+    productReducer,
     // newReviewReducer,
 
 
@@ -49,11 +50,12 @@ const reducer = combineReducers({
     auth: authReducer,
     user: userReducer,
     forgotPassword: forgotPasswordReducer,
-    // newProduct: newProductReducer,
+    newProduct: newProductReducer,
     cart: cartReducer,
     newOrder: newOrderReducer,
     myOrders: myOrdersReducer,
     orderDetails: orderDetailsReducer,
+    product: productReducer,
     // newReview: newReviewReducer,
     // allOrders: allOrdersReducer,
     // order: orderReducer,

@@ -149,7 +149,10 @@ function App() {
 
           <Route path="/dashboard" element={<Dashboard />} />
           {/* <Route path="/admin/products" element={<ProductsList />} /> */}
-          {/* <Route path="/admin/product" element={<NewProduct />} /> */}
+          <Route path="/admin/product" element={
+            <ProtectedRoute isAdmin={true} >
+              <NewProduct />
+            </ProtectedRoute>} />
           <Route
             path="/admin/product/:id"
             element={<UpdateProduct />} />
