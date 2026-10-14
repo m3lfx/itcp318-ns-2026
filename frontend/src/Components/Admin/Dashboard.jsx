@@ -11,47 +11,49 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProductSalesChart from './ProductSalesChart';
 import UserSalesChart from './UserSalesChart';
 import MonthlySalesChart from './MonthlySalesChart';
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const Dashboard = () => {
+    const { loading, error, products } = useSelector(state => state.products)
 
-    const [products, setProducts] = useState([])
-    const [error, setError] = useState('')
+    // const [products, setProducts] = useState([])
+    // const [error, setError] = useState('')
     // const [users, setUsers] = useState([])
     // const [orders, setOrders] = useState([])
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(false)
     // const [totalAmount, setTotalAmount] = useState([])
     let outOfStock = 0;
-    products.forEach(product => {
-        if (product.stock === 0) {
-            outOfStock += 1;
-        }
-    })
-    const getAdminProducts = async () => {
-        try {
+    // products.forEach(product => {
+    //     if (product.stock === 0) {
+    //         outOfStock += 1;
+    //     }
+    // })
+    // const getAdminProducts = async () => {
+    //     try {
 
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${getToken()}`
-                }
-            }
+    //         const config = {
+    //             headers: {
+    //                 'Authorization': `Bearer ${getToken()}`
+    //             }
+    //         }
 
-            const { data } = await axios.get(`${import.meta.env.VITE_API}/admin/products`, config)
-            console.log(data)
-            setProducts(data.products)
-            setLoading(false)
-        } catch (error) {
+    //         const { data } = await axios.get(`${import.meta.env.VITE_API}/admin/products`, config)
+    //         console.log(data)
+    //         setProducts(data.products)
+    //         setLoading(false)
+    //     } catch (error) {
 
-            setError(error.response.data.message)
+    //         setError(error.response.data.message)
 
-        }
-    }
+    //     }
+    // }
 
-    useEffect(() => {
-        getAdminProducts()
-        // allOrders()
-        // allUsers()
-    }, [])
+    // useEffect(() => {
+    //     getAdminProducts()
+    //     // allOrders()
+    //     // allUsers()
+    // }, [])
 
     return (
         <>

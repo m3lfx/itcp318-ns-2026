@@ -147,9 +147,9 @@ function App() {
           <Route path="/orders/me" element={<ListOrders />} />
           <Route path="/order/:id" element={<OrderDetails />} />
 
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
           {/* <Route path="/admin/products" element={<ProductsList />} /> */}
-          <Route path="/admin/product" element={<NewProduct />} />
+          {/* <Route path="/admin/product" element={<NewProduct />} /> */}
           <Route
             path="/admin/product/:id"
             element={<UpdateProduct />} />
