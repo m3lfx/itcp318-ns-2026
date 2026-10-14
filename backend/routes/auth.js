@@ -27,6 +27,6 @@ router.put('/me/update', isAuthenticatedUser, upload.single("avatar"), updatePro
 router.put('/password/update', isAuthenticatedUser, updatePassword)
 router.get('/admin/users', isAuthenticatedUser, authorizeRoles('admin'), allUsers)
 
-router.route('/admin/user/:id').get(isAuthenticatedUser, getUserDetails).delete(isAuthenticatedUser, deleteUser).put(isAuthenticatedUser, updateUser)
+router.route('/admin/user/:id').get(isAuthenticatedUser, getUserDetails).delete(isAuthenticatedUser, authorizeRoles('admin'), deleteUser).put(isAuthenticatedUser, authorizeRoles('admin'), updateUser)
 router.get('/logout', logout);
 module.exports = router;

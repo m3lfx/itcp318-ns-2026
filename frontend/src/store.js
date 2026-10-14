@@ -14,7 +14,7 @@ import {
     authReducer,
     userReducer,
     forgotPasswordReducer,
-    // allUsersReducer,
+    allUsersReducer,
     userDetailsReducer,
 } from './reducers/userReducers'
 
@@ -59,7 +59,7 @@ const reducer = combineReducers({
     // newReview: newReviewReducer,
     allOrders: allOrdersReducer,
     order: orderReducer,
-    // allUsers: allUsersReducer,
+    allUsers: allUsersReducer,
     userDetails: userDetailsReducer,
 
 
